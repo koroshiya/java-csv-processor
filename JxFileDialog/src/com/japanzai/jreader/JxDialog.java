@@ -51,7 +51,7 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	
 	private static boolean allowArchives;
 	
-	private static File curDir = new File(System.getProperty("user.dir"));
+	private static File curDir = new File(System.getProperty("user.home"));
 	private static File returnFile = null;
 	private static File selectedFile = null;
 	
