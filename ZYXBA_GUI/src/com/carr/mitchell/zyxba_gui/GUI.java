@@ -21,6 +21,7 @@ public class GUI {
 	private JButton btnExportToXML;
 	private JButton btnExportToJSON;
 	private JButton btnExportToMSQL;
+	private JButton btnExportToPostgres;
         
         private JMenuBar menuBar;
         private JMenu menu;
@@ -28,6 +29,7 @@ public class GUI {
         private JMenuItem menuItemExportXML;
         private JMenuItem menuItemExportJSON;
         private JMenuItem menuItemExportMSQL;
+        private JMenuItem menuItemExportPostgres;
         
         private JTable table;
         private ActionListener actListener;
@@ -37,6 +39,7 @@ public class GUI {
 	public static final String exportXML = "Export to XML File";
 	public static final String exportJSON = "Export to JSon File";
 	public static final String exportMSQL = "Export to MySQL Database";
+	public static final String exportPostgres = "Export to Postgres Database";
 	
 	private File csv;
 	
@@ -77,6 +80,7 @@ public class GUI {
 		btnExportToXML = new JButton(exportXML);
 		btnExportToJSON = new JButton(exportJSON);
 		btnExportToMSQL = new JButton(exportMSQL);
+		btnExportToPostgres = new JButton(exportPostgres);
 		
 		OpenListener ol = new OpenListener(this);
 		ExportListener el = new ExportListener(this);
@@ -85,6 +89,7 @@ public class GUI {
 		btnExportToXML.addActionListener(el);
 		btnExportToJSON.addActionListener(el);
 		btnExportToMSQL.addActionListener(el);
+		btnExportToPostgres.addActionListener(el);
                 
                 frame.setMinimumSize(new Dimension(600, 300));
                 
@@ -95,6 +100,7 @@ public class GUI {
                 menu.add(createMenuItem(menuItemExportXML, exportXML));
                 menu.add(createMenuItem(menuItemExportJSON, exportJSON));
                 menu.add(createMenuItem(menuItemExportMSQL, exportMSQL));
+                menu.add(createMenuItem(menuItemExportPostgres, exportPostgres));
                 menuBar.add(menu);
                 
                 frame.setJMenuBar(menuBar);
@@ -148,5 +154,17 @@ public class GUI {
 	public void display(){
 		frame.setVisible(true);
 	}
+        
+        public JFrame getFrame(){
+            return this.frame;
+        }
+        
+        public Object[][] getData(){
+            if (this.csv != null){
+                return CSVDecoder.CSVToTwoDimensionalArray(this.csv);
+            }else{
+                return null;
+            }
+        }
 	
 }
