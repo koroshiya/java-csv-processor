@@ -26,7 +26,7 @@ public class CSVDecoder {
 	    try {
 	    	
 	    	br = new BufferedReader(new FileReader(csv));	        
-	        String line = br.readLine();
+	        String line;
 
 	        while ((line = br.readLine()) != null) {
 	        	arrayList.add(line);
@@ -114,7 +114,7 @@ public class CSVDecoder {
 		
 		String[][] results = new String[csvEntries.size()][];
 		for (int i = 0; i < csvEntries.size(); i++){
-			results[0] = csvEntries.get(i);
+			results[i] = csvEntries.get(i);
 		}
 		
 		return results;
