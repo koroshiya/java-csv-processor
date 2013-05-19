@@ -40,9 +40,13 @@ public abstract class DBTable {
 	                this.getDatabaseName(), 
 	                this.getUserName(), 
 	                this.getPassword());   
-	    } catch (Exception e) {  
-	        e.printStackTrace();  
-	    }
+	    } catch (ClassNotFoundException e) {  
+	        System.out.println("Appropriate driver not found");
+                e.printStackTrace();
+	    }catch (SQLException e){
+                System.out.println("Unable to connect to database");
+                e.printStackTrace();
+            }
 
 	}
 	
@@ -51,8 +55,8 @@ public abstract class DBTable {
 		if (dbConnection != null){
 		
 			try{
-		        Statement statement = dbConnection.createStatement();  
-		        return statement.executeQuery(sqlStatement);
+                            Statement statement = dbConnection.createStatement();  
+                            return statement.executeQuery(sqlStatement);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -64,25 +68,72 @@ public abstract class DBTable {
 		return null;
 		
 	}
+        
+        public void writeToTable(String tableName, Object[][] data){
+            
+           StringBuffer buffer = new StringBuffer();
+            
+            for (Object[] obj : data){
+                buffer.append("insert into ");
+                buffer.append(tableName);
+                buffer.append(" values(");
+                for (Object o : obj){
+                    buffer.append(o);
+                    buffer.append(", ");
+                }
+                buffer = buffer.delete(buffer.lastIndexOf(","), buffer.length());
+                buffer.append(");");
+                execute(buffer.toString());
+                buffer.setLength(0);
+            } 
+            
+        }
+        
+        public void writeToTable(String tableName, ResultSet rs){
+            
+            StringBuffer buffer = new StringBuffer();
+            try{
+                if (rs.next()){
+
+                        buffer.append("insert into ");
+                        buffer.append(tableName);
+                        buffer.append(" values(");
+                        int i = 0;
+                        do {
+                            buffer.append(rs.getObject(i++));
+                            buffer.append(", ");
+                        }while (rs.next());
+                        buffer = buffer.delete(buffer.lastIndexOf(","), buffer.length());
+                        buffer.append(");");
+                        execute(buffer.toString());
+                        buffer.setLength(0);
+
+                }
+            }catch (SQLException ex){
+                System.out.println("Couldn't write to table");
+                ex.printStackTrace();
+            }
+            
+        }
 	
 	public static ArrayList<Object[]> readResultSet(ResultSet resultSet, String[] headers){
 		
-		ArrayList<Object[]> objects = new ArrayList<Object[]>();
-    	Object[] o;
+            ArrayList<Object[]> objects = new ArrayList<Object[]>();
+            Object[] o;
 		
-        try {
-			while (resultSet.next()) {
-				o = new Object[headers.length];
-				for (int i = 0; i < headers.length; i++){
-					o[i] = resultSet.getObject(headers[i]);
-				}
-				objects.add(o);
+            try {
+		while (resultSet.next()) {
+                	o = new Object[headers.length];
+			for (int i = 0; i < headers.length; i++){
+				o[i] = resultSet.getObject(headers[i]);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			objects.add(o);
 		}
+            } catch (Exception e) {
+            	e.printStackTrace();
+            }
         
-        return objects;
+            return objects;
         
 	}
 	
