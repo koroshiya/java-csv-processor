@@ -169,24 +169,23 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	}
 	
 	private void tryPath(){
-		String newDir = address.getText();
+		File newDir = new File(address.getText());
 		if (!newDir.equals(curDir)){
-			File newFile = new File(newDir);
-			if (!newFile.exists()){
+			if (!newDir.exists()){
 				address.setText(curDir.getAbsolutePath());
-			}else if (newFile.isDirectory()){
-				curDir = newFile.getAbsoluteFile();
+			}else if (newDir.isDirectory()){
+				curDir = newDir.getAbsoluteFile();
 				parseDir(curDir);
 			}else{
 				for (String extension : filter){
-					if (newFile.getName().endsWith(extension)){ 
-						returnFile = newFile;
+					if (newDir.getName().endsWith(extension)){ 
+						returnFile = newDir;
 						Close();
 						return;
 					}
 				}
 				System.out.println("Unsupported file type");
-				curDir = new File(newFile.getParent());
+				curDir = new File(newDir.getParent());
 				address.setText(curDir.getAbsolutePath());
 				parseDir(curDir);
 			}
@@ -245,9 +244,10 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	
 	public File getReturnFile(){return returnFile;}
 	
+        @Override
 	public void mousePressed(MouseEvent me) {
-		//System.out.println(me.getSource());
-		if (me.getSource().toString().startsWith("com.japanzai.jreader.JItem")){
+		
+		if (me.getSource() instanceof JItem){
 			JItem j = (JItem) me.getSource();
 			if (me.getClickCount() == 2){tryPath(j.getPath());}
 			else if(me.getClickCount() == 1){setFocus(j);}
