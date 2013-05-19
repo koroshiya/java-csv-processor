@@ -1,6 +1,7 @@
 package com.carr.mitchell.zyxba_gui;
 
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -10,6 +11,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import text_to_other.CSVDecoder;
 
 public class GUI {
 	
@@ -27,6 +30,7 @@ public class GUI {
         private JMenuItem menuItemExportMSQL;
         
         private JTable table;
+        private ActionListener actListener;
 
 	public static final String strMenuFile = "File";
 	public static final String openCsv = "Open CSV File";
@@ -47,6 +51,22 @@ public class GUI {
 	public void setCSV(File csv){
 		this.csv = csv;
 	}
+        
+        public void readCSV(){
+            
+            if (this.csv != null){
+                Object[][] data = CSVDecoder.CSVToTwoDimensionalArray(this.csv);
+
+                table.setModel(new DefaultTableModel(data.length, data[0].length));
+                
+                for (int row = 0; row < data.length; row++){
+                    for (int col = 0; col < data[row].length; col++){
+                        table.getModel().setValueAt(data[row][col], row, col);
+                    }
+                }
+            }
+            
+        }
 	
 	private void instantiateGUI(){
 		
@@ -66,10 +86,11 @@ public class GUI {
 		btnExportToJSON.addActionListener(el);
 		btnExportToMSQL.addActionListener(el);
                 
-                frame.setMinimumSize(new Dimension(400, 300));
+                frame.setMinimumSize(new Dimension(600, 300));
                 
                 menuBar = new JMenuBar();
                 menu = new JMenu(strMenuFile);
+                actListener = new ButtonListener(this);
                 menu.add(createMenuItem(menuItemOpen, openCsv));
                 menu.add(createMenuItem(menuItemExportXML, exportXML));
                 menu.add(createMenuItem(menuItemExportJSON, exportJSON));
@@ -118,6 +139,7 @@ public class GUI {
             
             item = new JMenuItem();
             item.setText(command);
+            item.addActionListener(actListener);
             
             return item;
             
