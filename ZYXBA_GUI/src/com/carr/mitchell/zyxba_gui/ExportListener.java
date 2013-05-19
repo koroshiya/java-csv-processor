@@ -1,5 +1,7 @@
 package com.carr.mitchell.zyxba_gui;
 
+import database.DBTable;
+import database.MySQLTable;
 import database.PostgresTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,29 +30,47 @@ public class ExportListener implements ActionListener{
 			
 			if (command.equals(GUI.exportXML)){
 				
-			}else if (command.equals(GUI.exportJSON)){
-				
-			}else if (command.equals(GUI.exportMSQL)){
-				
-			}else if (command.equals(GUI.exportPostgres)){
-                                String db = JOptionPane.showInputDialog(
-                                        parent.getFrame(), 
-                                        "Please enter the name of the Database you wish to export to", 
-                                        "Export to Postgres", 
-                                        JOptionPane.YES_OPTION);
-                                String result = JOptionPane.showInputDialog(
-                                        parent.getFrame(), 
-                                        "Please enter the name of the Table you wish to export to", 
-                                        "Export to Postgres", 
-                                        JOptionPane.YES_OPTION);
-                                if (db != null && !db.equals("") && 
-                                        result != null && !result.equals("")){
-                                    PostgresTable table = new PostgresTable(db, "postgres", "postgres");
-                                    table.writeToTable(result, parent.getData());
-                                }
 			}else {
-				//TODO: assertion
-			}
+                            String type = "";
+                            switch (command) {
+                                case GUI.exportJSON:
+                                    break;
+                                case GUI.exportMSQL:
+                                    DBTable table;
+                                    type = "MySQL";
+                                case GUI.exportPostgres:
+                                    if (type.equals("")){
+                                        type = "Postgres";
+                                    }
+                                    String db = JOptionPane.showInputDialog(
+                                            parent.getFrame(), 
+                                            "Please enter the name of the Database you wish to export to", 
+                                            "Export to " + type, 
+                                            JOptionPane.YES_OPTION);
+                                    String result = JOptionPane.showInputDialog(
+                                            parent.getFrame(), 
+                                            "Please enter the name of the Table you wish to export to", 
+                                            "Export to " + type, 
+                                            JOptionPane.YES_OPTION);
+                                    if (db == null || db.equals("") || result == null || result.equals("")){
+                                        return;
+                                    }
+                                    switch (type) {
+                                        case "Postgres":
+                                            table = new PostgresTable(db, "postgres", "postgres");
+                                            break;
+                                        case "MySQL":
+                                            table = new MySQLTable(db, "root", "passwd");
+                                            break;
+                                        default:
+                                            return; //TODO: assertion
+                                    }
+                                    table.writeToTable(result, parent.getData());
+                                    break;                                                                                
+                                    
+                            }
+                            
+                        }
 			
 		}
 		
