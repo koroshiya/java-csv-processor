@@ -7,13 +7,11 @@ import java.util.ArrayList;
 public class JxFileDialog {
 	
 	private final ImageIcon dirIcon;
-	private final ImageIcon fileIcon;
-	private final String[] filter;
+	private final ArrayList<Pairing> pairings;
 	
-	public JxFileDialog(ImageIcon dirIcon, ImageIcon fileIcon, String[] filters){
+	public JxFileDialog(ImageIcon dirIcon, ArrayList<Pairing> pairings){
 		this.dirIcon = dirIcon;
-		this.fileIcon = fileIcon;
-		this.filter = filters;
+		this.pairings = pairings;
 	}
 	
 	public ArrayList<JItem> parseDir(File path){
@@ -37,16 +35,20 @@ public class JxFileDialog {
 		ImageIcon icon = null;
 		
 		if (file.isFile()){
-			for (String extension : filter){
-				if (file.getName().endsWith(extension)){
-					icon = fileIcon;
-					break;
+			for (Pairing p : pairings){
+				for (String s : p.getSupportedFileTypes()){
+					if (file.getName().endsWith(s)){
+						icon = p.getIcon();
+						return new JItem(file, icon);
+					}
 				}
+				
 			}
-			if (icon == null){return null;}
-			icon = fileIcon;
-		}else{icon = dirIcon;}
-		return new JItem(file, icon);		
+			return null;
+		}else{
+			icon = dirIcon;
+		}
+		return new JItem(file, icon);
 	}
 	
 }

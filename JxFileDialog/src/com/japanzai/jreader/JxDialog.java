@@ -31,10 +31,7 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	private static ArrayList<JItem> items = new ArrayList<JItem>();
 	private static ImageIcon dirIcon = null;
 	private static ImageIcon upIcon = null;
-	private static ImageIcon archiveIcon = null;
-	private static ImageIcon documentIcon = null;
 	private static ImageIcon goIcon = null;
-	private static ImageIcon unknownIcon = null;
 	
 	private static JFrame frame;
 	private static JPanel panel;
@@ -57,11 +54,8 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	private static File returnFile = null;
 	private static File selectedFile = null;
 	
-	private static String[] filter;
+	private static ArrayList<String> filter;
 	private WindowEvent arv = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
-
-	private final String[] supportedArchives = {".zip", ".rar", ".cbz", ".cbr"};
-	private final String[] supportedDocuments = {".txt", ".csv", ".java"};
 	
 	/**
 	 *  Implement JScrollPane and/or JPanel //JPanel currently used
@@ -73,12 +67,18 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	 *for later implementation, don't make visible, save setup, return public method
 	 * */
 	
-	public JxDialog(String[] filteredFiles){
+	public JxDialog(ArrayList<Pairing> pairings){
 		super(frame, true);
 		frame = new JFrame("JxDialog");
 		
-		allowFiles = filteredFiles != null;
-		if (allowFiles){filter = filteredFiles;}
+		allowFiles = pairings != null;
+		
+		if (allowFiles){
+			filter = new ArrayList<String>();
+			for (Pairing p : pairings){
+				filter.addAll(p.getSupportedFileTypes());
+			}
+		}
 		
 		
 		panel = new JPanel();
@@ -93,19 +93,15 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 		//panel.addKeyListener(this);
 		panel.addMouseListener(this);
 		
-		try{			
+		try{
 
 			dirIcon = new ImageIcon(getClass().getResource("/images/folder.png"));
 			
 			upIcon = new ImageIcon(getClass().getResource("/images/up.png"));
 			
-			archiveIcon = new ImageIcon(getClass().getResource("/images/archive.png"));
-			
 			goIcon = new ImageIcon(getClass().getResource("/images/go.png"));
 			
-			documentIcon = new ImageIcon(getClass().getResource("/images/document.png"));
-			
-			unknownIcon = new ImageIcon(getClass().getResource("/images/unknown.png"));
+			//unknownIcon = new ImageIcon(getClass().getResource("/images/unknown.png"));
 			
 			//Back
 			//Forward
@@ -114,19 +110,7 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 		}
 		//archiveDialog = new JxArchiveDialog(dirIcon, archiveIcon);
 		folderDialog = new JxFolderDialog(dirIcon);
-		fileDialog = null;
-		for (String s : filteredFiles){
-			if (isKnownDocument(s)){
-				fileDialog = new JxFileDialog(dirIcon, documentIcon, filteredFiles);
-				break;
-			}else if (isKnownArchive(s)){
-				fileDialog = new JxFileDialog(dirIcon, archiveIcon, filteredFiles);
-				break;
-			}
-		}
-		if (fileDialog == null){
-			fileDialog = new JxFileDialog(dirIcon, unknownIcon, filteredFiles);
-		}		
+		fileDialog = new JxFileDialog(dirIcon, pairings);
 		
 		panel.setBackground(Color.WHITE);
 		
@@ -187,30 +171,6 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 
 		panel.setDoubleBuffered(true);
 
-	}
-	
-	private boolean isKnownArchive(String fileName){
-		
-		for (String s : supportedArchives){
-			if (fileName.endsWith(s)){
-				return true;
-			}
-		}
-		
-		return false;
-		
-	}
-	
-	private boolean isKnownDocument(String fileName){
-		
-		for (String s : supportedDocuments){
-			if (fileName.endsWith(s)){
-				return true;
-			}
-		}
-		
-		return false;
-		
 	}
 	
 	private void tryPath(){
