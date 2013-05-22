@@ -1,5 +1,6 @@
 package com.carr.mitchell.zyxba_gui;
 
+import database.Credential;
 import database.DBTable;
 import database.MySQLTable;
 import database.PostgresTable;
@@ -10,6 +11,8 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+
+import com.carr.mitchell.zyxba_gui.credential.CredentialEntry;
 
 public class ExportListener implements ActionListener {
 
@@ -57,26 +60,62 @@ public class ExportListener implements ActionListener {
 					if (type.equals("")) {
 						type = "Postgres";
 					}
-					String db = JOptionPane
-							.showInputDialog(
+					CredentialEntry ce = new CredentialEntry();
+					ce.display();
+					Credential c = ce.getCredential();
+					if (c == null){
+						return;
+					}
+					String db = c.getDatabaseName();
+					String name = c.getUserName();
+					String password = c.getPassword();
+					int port = c.getPort();
+					String ip = c.getIP();
+					
+					/*String db = JOptionPane.showInputDialog(
 									parent.getFrame(),
 									"Please enter the name of the Database you wish to export to",
 									"Export to " + type, JOptionPane.YES_OPTION);
-					String result = JOptionPane
-							.showInputDialog(
-									parent.getFrame(),
-									"Please enter the name of the Table you wish to export to",
-									"Export to " + type, JOptionPane.YES_OPTION);
+					
 					if (db == null || db.equals("") || result == null
 							|| result.equals("")) {
 						return;
+					}*/
+					
+					String result = JOptionPane.showInputDialog(
+									parent.getFrame(),
+									"Please enter the name of the Table you wish to export to",
+									"Export to " + type, JOptionPane.YES_OPTION);
+					if (result == null || result.equals("")) {
+						return;
 					}
+					
 					switch (type) {
 					case "Postgres":
-						table = new PostgresTable(db, "postgres", "postgres");
+						if (port == -1){
+							if (ip.equals("")){
+								table = new PostgresTable(db, name, password);
+							}else{
+								table = new PostgresTable(db, name, password, ip);
+							}
+						}else if (ip.equals("")){
+							table = new PostgresTable(db, name, password, port);
+						}else{
+							table = new PostgresTable(db, name, password, port, ip);
+						}
 						break;
 					case "MySQL":
-						table = new MySQLTable(db, "root", "passwd");
+						if (port == -1){
+							if (ip.equals("")){
+								table = new MySQLTable(db, name, password);
+							}else{
+								table = new MySQLTable(db, name, password, ip);
+							}
+						}else if (ip.equals("")){
+							table = new MySQLTable(db, name, password, port);
+						}else{
+							table = new MySQLTable(db, name, password, port, ip);
+						}
 						break;
 					default:
 						return; // TODO: assertion

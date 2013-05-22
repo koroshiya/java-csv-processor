@@ -161,4 +161,8 @@ public class GUI {
 		}
 	}
 
+	public void storeCredentials(){
+		
+	}
+	
 }
