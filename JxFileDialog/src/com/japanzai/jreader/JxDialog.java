@@ -32,7 +32,9 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	private static ImageIcon dirIcon = null;
 	private static ImageIcon upIcon = null;
 	private static ImageIcon archiveIcon = null;
+	private static ImageIcon documentIcon = null;
 	private static ImageIcon goIcon = null;
+	private static ImageIcon unknownIcon = null;
 	
 	private static JFrame frame;
 	private static JPanel panel;
@@ -49,7 +51,7 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	//private static JxArchiveDialog archiveDialog;
 	private static JxFileDialog fileDialog;
 	
-	private static boolean allowArchives;
+	private static boolean allowFiles;
 	
 	private static File curDir = new File(System.getProperty("user.home"));
 	private static File returnFile = null;
@@ -57,6 +59,9 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	
 	private static String[] filter;
 	private WindowEvent arv = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+
+	private final String[] supportedArchives = {".zip", ".rar", ".cbz", ".cbr"};
+	private final String[] supportedDocuments = {".txt", ".csv", ".java"};
 	
 	/**
 	 *  Implement JScrollPane and/or JPanel //JPanel currently used
@@ -72,8 +77,8 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 		super(frame, true);
 		frame = new JFrame("JxDialog");
 		
-		allowArchives = filteredFiles != null;
-		if (allowArchives){filter = filteredFiles;}
+		allowFiles = filteredFiles != null;
+		if (allowFiles){filter = filteredFiles;}
 		
 		
 		panel = new JPanel();
@@ -96,7 +101,11 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 			
 			archiveIcon = new ImageIcon(getClass().getResource("/images/archive.png"));
 			
-			goIcon = new ImageIcon(getClass().getResource("/images/go.png"));			
+			goIcon = new ImageIcon(getClass().getResource("/images/go.png"));
+			
+			documentIcon = new ImageIcon(getClass().getResource("/images/document.png"));
+			
+			unknownIcon = new ImageIcon(getClass().getResource("/images/unknown.png"));
 			
 			//Back
 			//Forward
@@ -105,7 +114,19 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 		}
 		//archiveDialog = new JxArchiveDialog(dirIcon, archiveIcon);
 		folderDialog = new JxFolderDialog(dirIcon);
-		fileDialog = new JxFileDialog(dirIcon, archiveIcon, filteredFiles);
+		fileDialog = null;
+		for (String s : filteredFiles){
+			if (isKnownDocument(s)){
+				fileDialog = new JxFileDialog(dirIcon, documentIcon, filteredFiles);
+				break;
+			}else if (isKnownArchive(s)){
+				fileDialog = new JxFileDialog(dirIcon, archiveIcon, filteredFiles);
+				break;
+			}
+		}
+		if (fileDialog == null){
+			fileDialog = new JxFileDialog(dirIcon, unknownIcon, filteredFiles);
+		}		
 		
 		panel.setBackground(Color.WHITE);
 		
@@ -168,6 +189,30 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 
 	}
 	
+	private boolean isKnownArchive(String fileName){
+		
+		for (String s : supportedArchives){
+			if (fileName.endsWith(s)){
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+	
+	private boolean isKnownDocument(String fileName){
+		
+		for (String s : supportedDocuments){
+			if (fileName.endsWith(s)){
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+	
 	private void tryPath(){
 		File newDir = new File(address.getText());
 		if (!newDir.equals(curDir)){
@@ -210,7 +255,7 @@ public class JxDialog extends JDialog implements ActionListener, MouseListener, 
 	
 	private void parseDir(File path){
 		purgeItems();
-		items = allowArchives ? fileDialog.parseDir(path) : folderDialog.parseDir(path);
+		items = allowFiles ? fileDialog.parseDir(path) : folderDialog.parseDir(path);
 		for (JItem item : items){
 			panel.add(item.getJLabel());
 			item.setToolTipText(item.getPath());

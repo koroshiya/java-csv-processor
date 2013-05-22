@@ -59,6 +59,10 @@ public class GUI {
 
 		if (this.csv != null) {
 			Object[][] data = CSVDecoder.CSVToTwoDimensionalArray(this.csv);
+			if (data.length == 0 || data[0].length == 0){
+				System.out.println("No valid data in file");
+				return;
+			}
 
 			table.setModel(new DefaultTableModel(data.length, data[0].length));
 
