@@ -67,7 +67,7 @@ public class GUI {
 			table.setModel(new DefaultTableModel(data.length, data[0].length));
 
 			for (int row = 0; row < data.length; row++) {
-				for (int col = 0; col < data[row].length; col++) {
+				for (int col = 0; col < data[row].length && col < data[0].length; col++) {
 					table.getModel().setValueAt(data[row][col], row, col);
 				}
 			}
