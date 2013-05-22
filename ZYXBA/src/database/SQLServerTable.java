@@ -2,10 +2,10 @@ package database;
 
 public class SQLServerTable extends DBTable {
 
-	private final static int defaultPort = -1;
-	private final static String defaultDriver = ""; //TODO: get defaults for SQL Server
+	private final static int defaultPort = 1433;
+	private final static String defaultDriver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private final static String defaultIP = "localhost";
-	private final static String connectionHead = "";
+	private final static String connectionHead = "jdbc:sqlserver://";
 
 	public SQLServerTable(String dbName, String userName, String password) {
 		super(dbName, connectionHead, defaultIP, defaultPort, defaultDriver,
