@@ -9,12 +9,12 @@ public class JxFileDialog {
 	private final ImageIcon dirIcon;
 	private final ArrayList<Pairing> pairings;
 	
-	public JxFileDialog(ImageIcon dirIcon, ArrayList<Pairing> pairings){
+	protected JxFileDialog(ImageIcon dirIcon, ArrayList<Pairing> pairings){
 		this.dirIcon = dirIcon;
 		this.pairings = pairings;
 	}
 	
-	public ArrayList<JItem> parseDir(File path){
+	protected ArrayList<JItem> parseDir(File path){
 		
 		if (!path.exists() || path.isFile()){return null;}
 

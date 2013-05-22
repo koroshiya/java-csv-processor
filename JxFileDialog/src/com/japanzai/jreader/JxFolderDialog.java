@@ -8,9 +8,9 @@ public class JxFolderDialog {
 	
 	private ImageIcon dirIcon = null;
 	
-	public JxFolderDialog(ImageIcon dirIcon){this.dirIcon = dirIcon;}
+	protected JxFolderDialog(ImageIcon dirIcon){this.dirIcon = dirIcon;}
 	
-	public ArrayList<JItem> parseDir(File path){
+	protected ArrayList<JItem> parseDir(File path){
 		if (!path.exists() || path.isFile()){return null;}
 	
 		ArrayList<JItem> items = new ArrayList<JItem>();
