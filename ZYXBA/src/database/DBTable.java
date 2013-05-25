@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import java.sql.DatabaseMetaData;
+
 public abstract class DBTable {
 
 	private final String DATABASE_NAME;
@@ -34,7 +36,7 @@ public abstract class DBTable {
 				password);
 	}
 
-	public void connect() {
+	public boolean connect() {
 
 		try {
 			Class.forName(this.getDriverName());
@@ -50,20 +52,17 @@ public abstract class DBTable {
 			System.out.println("Unable to connect to database");
 			e.printStackTrace();
 		}
+		
+		return dbConnection != null;
 
 	}
 
-	public ResultSet execute(String sqlStatement) {
+	public ResultSet execute(String sqlStatement) throws SQLException{
 
 		if (dbConnection != null) {
 
-			try {
-				Statement statement = dbConnection.createStatement();
-				return statement.executeQuery(sqlStatement);
-			} catch (SQLException e) {
-				System.out.println("Failed to execute statement");
-				// e.printStackTrace();
-			}
+			Statement statement = dbConnection.createStatement();
+			return statement.executeQuery(sqlStatement);
 
 		} else {
 			System.out.println("No active database connection");
@@ -73,9 +72,22 @@ public abstract class DBTable {
 
 	}
 
-	public void writeToTable(String tableName, Object[][] data) {
+	public void writeToTable(String tableName, Object[][] data) throws SQLException {
 
 		StringBuffer buffer = new StringBuffer();
+		
+		DatabaseMetaData dmb = dbConnection.getMetaData();
+		if (!(dmb.getTables(null, null, tableName, null)).next()){
+			//TODO: table does not exist. Create table now?
+			//TODO: prompt for data types
+			if (!createTable(tableName, data)){
+				
+			}
+			//TODO: create table
+			
+			
+			return;
+		};
 
 		for (Object[] obj : data) {
 			buffer.append("insert into ");
@@ -92,34 +104,10 @@ public abstract class DBTable {
 		}
 
 	}
-
-	public void writeToTable(String tableName, ResultSet rs) {
-
-		StringBuffer buffer = new StringBuffer();
-		try {
-			if (rs.next()) {
-
-				buffer.append("insert into ");
-				buffer.append(tableName);
-				buffer.append(" values(");
-				int i = 0;
-				do {
-					buffer.append(rs.getObject(i++));
-					buffer.append(", ");
-				} while (rs.next());
-				buffer = buffer
-						.delete(buffer.lastIndexOf(","), buffer.length());
-				buffer.append(");");
-				execute(buffer.toString());
-				buffer.setLength(0);
-
-			}
-		} catch (SQLException ex) {
-			System.out.println("Couldn't write to table");
-			ex.printStackTrace();
-		}
-
-	}
+	
+	public abstract boolean createTable(String tableName, Object[][] data);
+	
+	public abstract String getDataTypeAsString(int type);
 
 	public static ArrayList<Object[]> readResultSet(ResultSet resultSet,
 			String[] headers) {
@@ -142,7 +130,7 @@ public abstract class DBTable {
 		return objects;
 
 	}
-
+	
 	public void close() {
 
 		if (dbConnection != null) {

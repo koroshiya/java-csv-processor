@@ -76,7 +76,10 @@ public class CredentialEntry extends JDialog {
 	}
 	
 	public void display(){
+		
+		this.setModal(true);
 		this.setVisible(true);
+		
 	}
 	
 	public Credential getCredential(){

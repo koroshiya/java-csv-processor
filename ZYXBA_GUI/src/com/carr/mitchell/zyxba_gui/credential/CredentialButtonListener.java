@@ -28,7 +28,7 @@ public class CredentialButtonListener implements ActionListener{
 			if (command.equals(CredentialEntry.accept)){
 				parent.accept();
 			}else if (command.equals(CredentialEntry.cancel)){
-				//TODO: cancel
+				parent.dispose();
 			}
 			
 		}

@@ -7,6 +7,7 @@ import database.PostgresTable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
@@ -48,11 +49,11 @@ public class ExportListener implements ActionListener {
 
 			if (command.equals(GUI.exportXML)) {
 
+			} else if (command.equals(GUI.exportJSON)){
+				
 			} else {
 				String type = "";
 				switch (command) {
-				case GUI.exportJSON:
-					break;
 				case GUI.exportMSQL:
 					DBTable table;
 					type = "MySQL";
@@ -72,63 +73,63 @@ public class ExportListener implements ActionListener {
 					int port = c.getPort();
 					String ip = c.getIP();
 					
-					/*String db = JOptionPane.showInputDialog(
-									parent.getFrame(),
-									"Please enter the name of the Database you wish to export to",
-									"Export to " + type, JOptionPane.YES_OPTION);
-					
-					if (db == null || db.equals("") || result == null
-							|| result.equals("")) {
-						return;
-					}*/
-					
-					String result = JOptionPane.showInputDialog(
-									parent.getFrame(),
-									"Please enter the name of the Table you wish to export to",
-									"Export to " + type, JOptionPane.YES_OPTION);
-					if (result == null || result.equals("")) {
-						return;
-					}
-					
 					switch (type) {
-					case "Postgres":
-						if (port == -1){
-							if (ip.equals("")){
-								table = new PostgresTable(db, name, password);
+						case "Postgres":
+							if (port == -1){
+								if (ip.equals("")){
+									table = new PostgresTable(db, name, password);
+								}else{
+									table = new PostgresTable(db, name, password, ip);
+								}
+							}else if (ip.equals("")){
+								table = new PostgresTable(db, name, password, port);
 							}else{
-								table = new PostgresTable(db, name, password, ip);
+								table = new PostgresTable(db, name, password, port, ip);
 							}
-						}else if (ip.equals("")){
-							table = new PostgresTable(db, name, password, port);
-						}else{
-							table = new PostgresTable(db, name, password, port, ip);
-						}
-						break;
-					case "MySQL":
-						if (port == -1){
-							if (ip.equals("")){
-								table = new MySQLTable(db, name, password);
+							break;
+						case "MySQL":
+							if (port == -1){
+								if (ip.equals("")){
+									table = new MySQLTable(db, name, password);
+								}else{
+									table = new MySQLTable(db, name, password, ip);
+								}
+							}else if (ip.equals("")){
+								table = new MySQLTable(db, name, password, port);
 							}else{
-								table = new MySQLTable(db, name, password, ip);
+								table = new MySQLTable(db, name, password, port, ip);
 							}
-						}else if (ip.equals("")){
-							table = new MySQLTable(db, name, password, port);
-						}else{
-							table = new MySQLTable(db, name, password, port, ip);
-						}
-						break;
-					default:
-						return; // TODO: assertion
+							break;
+						default:
+							return; // TODO: assertion
 					}
-					table.connect();
-					table.writeToTable(result, parent.getData());
-					table.close();
+					if (table.connect()){
+						String result = JOptionPane.showInputDialog(
+								parent.getFrame(),
+								"Please enter the name of the Table you wish to export to",
+								"Export to " + type, JOptionPane.PLAIN_MESSAGE);
+						if (result == null || result.equals("")) {
+							return;
+						}
+						try {
+							table.writeToTable(result, parent.getData());
+						} catch (SQLException e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Couldn't write to table", "Export failed", JOptionPane.WARNING_MESSAGE);
+						}
+						table.close();
+					}else {
+						JOptionPane.showMessageDialog(null, "Unable to connect to database", "Connection failed", JOptionPane.WARNING_MESSAGE);
+					}
 					break;
-
+				default:
+					return;
 				}
 
 			}
 
+		}else {
+			JOptionPane.showMessageDialog(null, "You have not opened a CSV file", "No data to export", JOptionPane.WARNING_MESSAGE);
 		}
 
 	}
