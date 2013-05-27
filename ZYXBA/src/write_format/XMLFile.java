@@ -11,44 +11,34 @@ import text_to_other.CSVFileExport;
 
 public class XMLFile extends CSVFileExport {
 
-	private File output;
-
 	public XMLFile(File csv, String outputFile) {
 		super(csv, outputFile);
 	}
 
 	@Override
-	public void writeToColumnDefinedFile(String objectName, String[] columns) {
-
-		StringBuffer buffer = exportToColumns(objectName, columns);
-		writeToFile(buffer.toString());
-
-	}
-
-	private StringBuffer exportToColumns(String objectName, String[] columns) {
+	public StringBuffer exportToColumns(String objectName, String[] columns) {
 
 		StringBuffer buffer = new StringBuffer();
-		ArrayList<String[]> data = CSVDecoder.CSVToArrayListArray(super
-				.getCSV());
+		ArrayList<String[]> data = CSVDecoder.CSVToArrayListArray(super.getCSV());
 
-		buffer.append("<" + objectName + ">");
+		
 
-		for (int row = 0; row < columns.length; row++) {
+		for (int row = 0; row < columns.length && row < data.size(); row++) {
 
 			String[] dataRow = data.get(row);
 			if (dataRow == null) {
 				break;
 			}
-
-			for (int col = 0; col < columns.length; col++) {
-				buffer.append("<" + columns[col] + ">");
+			buffer.append("\t" + "<" + objectName + ">" + "\n");
+			for (int col = 0; col < columns.length && col < dataRow.length; col++) {
+				buffer.append("\t" + "\t" + "<" + columns[col] + ">");
 				buffer.append(dataRow[col]);
-				buffer.append("</" + columns[col] + ">");
+				buffer.append("</" + columns[col] + ">" + "\n");
 			}
-
+			buffer.append("\t" + "</" + objectName + ">" + "\n");
 		}
 
-		buffer.append("</" + objectName + ">");
+		
 
 		return buffer;
 
@@ -60,8 +50,8 @@ public class XMLFile extends CSVFileExport {
 		PrintStream out = null;
 		try {
 			out = new PrintStream(new FileOutputStream(output));
-			out.print("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?> ");
-			out.print("<" + this.output.getName() + ">");
+			out.print("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?> " + "\n");
+			out.print("<" + this.output.getName() + ">" + "\n");
 			out.print(text);
 			out.print("</" + this.output.getName() + ">");
 		} catch (FileNotFoundException e) {

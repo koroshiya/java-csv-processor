@@ -8,7 +8,7 @@ import java.io.File;
  * */
 public abstract class CSVFileExport extends CSVExport {
 
-	private final File output;
+	protected final File output;
 
 	public CSVFileExport(File csv, String outputFile) {
 		super(csv);
@@ -21,4 +21,13 @@ public abstract class CSVFileExport extends CSVExport {
 
 	public abstract void writeToFile(String text);
 
+	public abstract StringBuffer exportToColumns(String objectName, String[] columns);
+	
+	public void writeToColumnDefinedFile(String objectName, String[] columns) {
+		
+		StringBuffer buffer = exportToColumns(objectName, columns);
+		writeToFile(buffer.toString());
+		
+	}
+	
 }

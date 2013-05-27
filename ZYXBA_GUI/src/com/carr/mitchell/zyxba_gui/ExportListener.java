@@ -13,6 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import write_format.JSONFile;
+import write_format.XMLFile;
+
 import com.carr.mitchell.zyxba_gui.credential.CredentialEntry;
 
 public class ExportListener implements ActionListener {
@@ -48,9 +51,13 @@ public class ExportListener implements ActionListener {
 			}
 
 			if (command.equals(GUI.exportXML)) {
-
+				XMLFile xml = new XMLFile(csv, "/home/koro/test.xml");
+				xml.writeToColumnDefinedFile(csv.getName(), new String[]{"test", "test2", "test3", "test4", "test5", "test6", "test7"});
+				JOptionPane.showMessageDialog(null, "Export successful", "Export succeeded", JOptionPane.PLAIN_MESSAGE);
 			} else if (command.equals(GUI.exportJSON)){
-				
+				JSONFile json = new JSONFile(csv, "/home/koro/test.json");
+				json.writeToColumnDefinedFile(csv.getName(), new String[]{"test", "test2", "test3", "test4", "test5", "test6", "test7"});
+				JOptionPane.showMessageDialog(null, "Export successful", "Export succeeded", JOptionPane.PLAIN_MESSAGE);
 			} else {
 				String type = "";
 				switch (command) {
@@ -113,6 +120,7 @@ public class ExportListener implements ActionListener {
 						}
 						try {
 							table.writeToTable(result, parent.getData());
+							JOptionPane.showMessageDialog(null, "Export successful", "Export succeeded", JOptionPane.PLAIN_MESSAGE);
 						} catch (SQLException e) {
 							e.printStackTrace();
 							JOptionPane.showMessageDialog(null, "Couldn't write to table", "Export failed", JOptionPane.WARNING_MESSAGE);
