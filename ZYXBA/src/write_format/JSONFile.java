@@ -51,10 +51,11 @@ public class JSONFile extends CSVFileExport{
 				buffer.append("}" + "," + "\n");
 			}
 			buffer.delete(buffer.lastIndexOf(","), buffer.length());
-			buffer.append("\n" + "\t" + "]" + "\n");
+			buffer.append("\n" + "\t" + "]," + "\n");
 		}
 
-		
+		buffer.delete(buffer.lastIndexOf(","), buffer.length());
+		buffer.append("\n");
 
 		return buffer;
 
