@@ -8,9 +8,12 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.carr.mitchell.zyxba_gui.Prompt;
+import com.carr.mitchell.zyxba_gui.PromptListener;
+
 import database.Credential;
 
-public class CredentialEntry extends JDialog {
+public class CredentialEntry extends JDialog implements Prompt {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -52,7 +55,7 @@ public class CredentialEntry extends JDialog {
 		btnAccept = new JButton(accept);
 		btnCancel = new JButton(cancel);
 		
-		CredentialButtonListener cbl = new CredentialButtonListener(this);
+		PromptListener cbl = new PromptListener(this);
 		btnAccept.addActionListener(cbl);
 		btnCancel.addActionListener(cbl);
 		
@@ -88,6 +91,7 @@ public class CredentialEntry extends JDialog {
 		
 	}
 	
+	@Override
 	public void accept(){
 
 		String strUsername = userName.getText();
@@ -120,6 +124,11 @@ public class CredentialEntry extends JDialog {
 		
 		this.setVisible(false);
 		
+	}
+	
+	@Override
+	public void dispose(){
+		super.dispose();
 	}
 	
 }

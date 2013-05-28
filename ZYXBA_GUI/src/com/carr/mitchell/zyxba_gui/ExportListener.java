@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import text_to_other.CSVFileExport;
 import write_format.JSONFile;
 import write_format.XMLFile;
 
@@ -50,14 +51,26 @@ public class ExportListener implements ActionListener {
 				return;
 			}
 
-			if (command.equals(GUI.exportXML)) {
-				XMLFile xml = new XMLFile(csv, "/home/koro/test.xml");
-				xml.writeToColumnDefinedFile(csv.getName(), new String[]{"test", "test2", "test3", "test4", "test5", "test6", "test7"});
+			if (command.equals(GUI.exportXML) || command.equals(GUI.exportJSON)) {
+				
+				CSVFileExport form;
+				
+				if (command.equals(GUI.exportXML)){
+					form = new XMLFile(csv, "/home/koro/test.xml");
+				}else{
+					form = new JSONFile(csv, "/home/koro/test.json");
+				}
+				
+				HeaderPrompt prompt = new HeaderPrompt(parent.getData()[0].length);
+				prompt.display();
+				String[] headers = prompt.getHeaders();
+				if (headers == null){
+					return;
+				}
+				
+				form.writeToColumnDefinedFile(csv.getName(), headers);
 				JOptionPane.showMessageDialog(null, "Export successful", "Export succeeded", JOptionPane.PLAIN_MESSAGE);
-			} else if (command.equals(GUI.exportJSON)){
-				JSONFile json = new JSONFile(csv, "/home/koro/test.json");
-				json.writeToColumnDefinedFile(csv.getName(), new String[]{"test", "test2", "test3", "test4", "test5", "test6", "test7"});
-				JOptionPane.showMessageDialog(null, "Export successful", "Export succeeded", JOptionPane.PLAIN_MESSAGE);
+				
 			} else {
 				String type = "";
 				switch (command) {
