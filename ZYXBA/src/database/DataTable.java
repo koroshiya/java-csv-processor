@@ -38,10 +38,13 @@ public class DataTable {
 	public static DataTable convertToDataTable(Object[][] data, String tableName){
 		
 		DataTable table = new DataTable(tableName);
-		int count = 1;
 		
-		for (Object col[] : data){
-			table.addColumn(new DataColumn(col, "field" + count++));
+		for (int count = 0; count < data.length; count++){
+			ArrayList<Object> column = new ArrayList<Object>();
+			for (Object col : data[count]){
+				column.add(col);
+			}
+			table.addColumn(new DataColumn(column.toArray(), "field" + count));
 		}
 		
 		return table;

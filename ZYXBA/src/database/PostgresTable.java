@@ -32,68 +32,57 @@ public class PostgresTable extends DBTable {
 				password);
 	}
 
-	
 	@Override
-	public boolean createTable(String tableName, Object[][] data) {
+	public boolean createTable(String tableName, Object[][] data)
+			throws SQLException {
 		return createTable(DataTable.convertToDataTable(data, tableName));
 	}
-	
-	private boolean createTable(DataTable table){
-		
+
+	private boolean createTable(DataTable table) throws SQLException {
+
 		StringBuffer buffer = new StringBuffer();
-		try {
 
-				buffer.append("CREATE TABLE ");
-				buffer.append(table.getTableName());
-				buffer.append(" (");
-				
-				for (DataColumn col : table.getColumns()){
-					buffer.append("\"" + col.getColumnName() + "\" ");
-					buffer.append(getDataTypeAsString(col.getDataType()));
-					buffer.append(col.isNullable() ? " NULL" : " NOT NULL");
-					buffer.append(col.isPrimaryKey() ? " PRIMARY KEY" : "");
-					buffer.append(", ");
-				}
-				buffer = buffer
-						.delete(buffer.lastIndexOf(","), buffer.length());
-				buffer.append(");");
-				execute(buffer.toString());
-				buffer.setLength(0);
-				
-				return true;
-				
-		} catch (SQLException ex) {
-			System.out.println("Couldn't create table");
-			ex.printStackTrace();
+		buffer.append("CREATE TABLE ");
+		buffer.append("\"" + table.getTableName() + "\"");
+		buffer.append(" (");
+
+		for (DataColumn col : table.getColumns()) {
+			buffer.append("\"" + col.getColumnName() + "\" ");
+			buffer.append(getDataTypeAsString(col.getDataType()));
+			buffer.append(col.isNullable() ? " NULL" : " NOT NULL");
+			buffer.append(col.isPrimaryKey() ? " PRIMARY KEY" : "");
+			buffer.append(", ");
 		}
+		buffer = buffer.delete(buffer.lastIndexOf(","), buffer.length());
+		buffer.append(");");
+		System.out.println(buffer.toString());
+		executeUpdate(buffer.toString());
+		buffer.setLength(0);
 
-		return false;
-		
+		return true;
+
 	}
-	
+
 	/*
 	 * 
-	 * CREATE TABLE "tableName"
-		(
-		"campusID" character(3) NOT NULL,
-		"courseID" character(5) NOT NULL,
-		"disciplineID" integer NOT NULL,
-		"courseCoordinator" boolean NOT NULL,
-		"teacherID" character varying(20) NOT NULL,
-		CONSTRAINT "pk_Assessor" PRIMARY KEY ("campusID" , "courseID" , "disciplineID" , "teacherID" )
-		)
-	 * */
+	 * CREATE TABLE "tableName" ( "campusID" character(3) NOT NULL, "courseID"
+	 * character(5) NOT NULL, "disciplineID" integer NOT NULL,
+	 * "courseCoordinator" boolean NOT NULL, "teacherID" character varying(20)
+	 * NOT NULL, CONSTRAINT "pk_Assessor" PRIMARY KEY ("campusID" , "courseID" ,
+	 * "disciplineID" , "teacherID" ) )
+	 */
 
-	public String getDataTypeAsString(int type){ //TODO: move to DBTable? Check CREATE statements of other types first
-		
-		if (type == DataCell.TYPE_DATE){
+	public String getDataTypeAsString(int type) {
+		// TODO: move to DBTable? Check CREATE statements of other types first
+
+		if (type == DataCell.TYPE_DATE) {
 			return "date";
-		}else if (type == DataCell.TYPE_INT){
+		} else if (type == DataCell.TYPE_INT) {
 			return "integer";
-		}else{
+		} else {
 			return "text";
 		}
-		
+
 	}
-	
+
 }

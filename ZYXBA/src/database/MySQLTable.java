@@ -29,55 +29,49 @@ public class MySQLTable extends DBTable {
 		super(dbName, connectionHead, ip, port, defaultDriver, userName,
 				password);
 	}
-	
+
 	@Override
-	public boolean createTable(String tableName, Object[][] data) {
+	public boolean createTable(String tableName, Object[][] data)
+			throws SQLException {
 		return createTable(DataTable.convertToDataTable(data, tableName));
 	}
-	
-	private boolean createTable(DataTable table){ //TODO: check that this works/is syntactically correct
-		
+
+	private boolean createTable(DataTable table) throws SQLException {
+		// TODO: check that this works/is syntactically correct
+
 		StringBuffer buffer = new StringBuffer();
-		try {
 
-				buffer.append("CREATE TABLE ");
-				buffer.append(table.getTableName());
-				buffer.append(" (");
-				
-				for (DataColumn col : table.getColumns()){
-					buffer.append("\"" + col.getColumnName() + "\" ");
-					buffer.append(getDataTypeAsString(col.getDataType()));
-					buffer.append(col.isNullable() ? " NULL" : " NOT NULL");
-					buffer.append(col.isPrimaryKey() ? " PRIMARY KEY" : "");
-					buffer.append(", ");
-				}
-				buffer = buffer
-						.delete(buffer.lastIndexOf(","), buffer.length());
-				buffer.append(");");
-				execute(buffer.toString());
-				buffer.setLength(0);
-				
-				return true;
-				
-		} catch (SQLException ex) {
-			System.out.println("Couldn't create table");
-			ex.printStackTrace();
+		buffer.append("CREATE TABLE ");
+		buffer.append(table.getTableName());
+		buffer.append(" (");
+
+		for (DataColumn col : table.getColumns()) {
+			buffer.append("\"" + col.getColumnName() + "\" ");
+			buffer.append(getDataTypeAsString(col.getDataType()));
+			buffer.append(col.isNullable() ? " NULL" : " NOT NULL");
+			buffer.append(col.isPrimaryKey() ? " PRIMARY KEY" : "");
+			buffer.append(", ");
 		}
+		buffer = buffer.delete(buffer.lastIndexOf(","), buffer.length());
+		buffer.append(");");
+		executeUpdate(buffer.toString());
+		buffer.setLength(0);
 
-		return false;
-		
+		return true;
+
 	}
-	
-	public String getDataTypeAsString(int type){ //TODO: move to DBTable? Check CREATE statements of other types first
-		
-		if (type == DataCell.TYPE_DATE){
+
+	public String getDataTypeAsString(int type) {
+		// TODO: move to DBTable? Check CREATE statements of other types first
+
+		if (type == DataCell.TYPE_DATE) {
 			return "date";
-		}else if (type == DataCell.TYPE_INT){
+		} else if (type == DataCell.TYPE_INT) {
 			return "integer";
-		}else{
+		} else {
 			return "text";
 		}
-		
+
 	}
-	
+
 }

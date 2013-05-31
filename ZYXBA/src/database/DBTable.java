@@ -71,24 +71,42 @@ public abstract class DBTable {
 		return null;
 
 	}
+	
+	public void executeUpdate(String sqlStatement) throws SQLException{
+		
+		if (dbConnection != null) {
+
+			Statement statement = dbConnection.createStatement();
+			statement.executeUpdate(sqlStatement);
+
+		} else {
+			System.out.println("No active database connection");
+		}
+		
+	}
 
 	public void writeToTable(String tableName, Object[][] data) throws SQLException {
 
 		StringBuffer buffer = new StringBuffer();
 		
 		DatabaseMetaData dmb = dbConnection.getMetaData();
-		if (!(dmb.getTables(null, null, tableName, null)).next()){
+		ResultSet tables = dmb.getTables(null, null, tableName, null);
+		if (!(tables.next())){
 			//TODO: table does not exist. Create table now?
 			//TODO: prompt for data types
 			if (!createTable(tableName, data)){
-				
+				write(buffer, tableName, data);
 			}
-			//TODO: create table
-			
 			
 			return;
 		};
+		
+		write(buffer, tableName, data);
 
+	}
+	
+	private void write(StringBuffer buffer, String tableName, Object[][] data) throws SQLException{
+		
 		for (Object[] obj : data) {
 			buffer.append("insert into ");
 			buffer.append(tableName);
@@ -99,13 +117,14 @@ public abstract class DBTable {
 			}
 			buffer = buffer.delete(buffer.lastIndexOf(","), buffer.length());
 			buffer.append(");");
+			System.out.println(buffer.toString());
 			execute(buffer.toString());
 			buffer.setLength(0);
 		}
-
+		
 	}
 	
-	public abstract boolean createTable(String tableName, Object[][] data);
+	public abstract boolean createTable(String tableName, Object[][] data) throws SQLException;
 	
 	public abstract String getDataTypeAsString(int type);
 
