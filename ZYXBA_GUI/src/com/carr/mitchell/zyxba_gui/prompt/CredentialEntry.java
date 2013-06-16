@@ -1,19 +1,18 @@
-package com.carr.mitchell.zyxba_gui.credential;
+package com.carr.mitchell.zyxba_gui.prompt;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.carr.mitchell.zyxba_gui.Prompt;
-import com.carr.mitchell.zyxba_gui.PromptListener;
+import com.carr.mitchell.zyxba_gui.listeners.PromptListener;
+
 
 import database.Credential;
 
-public class CredentialEntry extends JDialog implements Prompt {
+public class CredentialEntry extends Prompt {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -77,20 +76,16 @@ public class CredentialEntry extends JDialog implements Prompt {
 		this.setMinimumSize(new Dimension(450, 200));
 		
 	}
-	
-	public void display(){
 		
-		this.setModal(true);
-		this.setVisible(true);
-		
-	}
-	
 	public Credential getCredential(){
 		
 		return this.credential;
 		
 	}
 	
+	/**
+	 * @see com.carr.mitchell.zyxba_gui.prompt.Prompt#accept()
+	 */
 	@Override
 	public void accept(){
 
@@ -126,8 +121,11 @@ public class CredentialEntry extends JDialog implements Prompt {
 		
 	}
 	
+	/**
+	 * @see com.carr.mitchell.zyxba_gui.prompt.Prompt#decline()
+	 */
 	@Override
-	public void dispose(){
+	public void decline(){
 		super.dispose();
 	}
 	

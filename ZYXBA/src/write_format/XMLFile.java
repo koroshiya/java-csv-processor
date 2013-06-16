@@ -11,10 +11,17 @@ import text_to_other.CSVFileExport;
 
 public class XMLFile extends CSVFileExport {
 
+	/**
+	 * @param csv CSV file to parse
+	 * @param outputFile Location to write exported CSV file to
+	 */
 	public XMLFile(File csv, String outputFile) {
 		super(csv, outputFile);
 	}
 
+	/**
+	 * @see text_to_other.CSVFileExport#exportToColumns(java.lang.String, java.lang.String[])
+	 */
 	@Override
 	public StringBuffer exportToColumns(String objectName, String[] columns) {
 
@@ -44,6 +51,9 @@ public class XMLFile extends CSVFileExport {
 
 	}
 
+	/**
+	 * @see text_to_other.CSVFileExport#writeToFile(java.lang.String)
+	 */
 	@Override
 	public void writeToFile(String text) {
 

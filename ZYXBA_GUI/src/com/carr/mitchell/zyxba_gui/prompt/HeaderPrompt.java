@@ -1,16 +1,19 @@
-package com.carr.mitchell.zyxba_gui;
+package com.carr.mitchell.zyxba_gui.prompt;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import com.carr.mitchell.zyxba_gui.Prompt;
+import com.carr.mitchell.zyxba_gui.listeners.PromptListener;
+import com.carr.mitchell.zyxba_gui.prompt.Prompt;
 
-public class HeaderPrompt extends JDialog implements Prompt{
+/**
+ * Prompts a user for column headers
+ * */
+public class HeaderPrompt extends Prompt{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -24,6 +27,9 @@ public class HeaderPrompt extends JDialog implements Prompt{
 	private final JLabel[] labels;
 	private final JTextField[] entries;
 	
+	/**
+	 * @param headerCount Number of column headers to instantiate
+	 */
 	public HeaderPrompt(int headerCount){
 		
 		this.headerCount = headerCount;
@@ -62,17 +68,16 @@ public class HeaderPrompt extends JDialog implements Prompt{
 		
 	}
 	
-	public void display(){
-		
-		this.setModal(true);
-		this.setVisible(true);
-		
-	}
-	
+	/**
+	 * @return String[] of column headers
+	 */
 	public String[] getHeaders(){
 		return this.headers;
 	}
 	
+	/**
+	 * @see com.carr.mitchell.zyxba_gui.prompt.Prompt#accept()
+	 */
 	@Override
 	public void accept(){
 		
@@ -97,8 +102,11 @@ public class HeaderPrompt extends JDialog implements Prompt{
 		
 	}
 	
+	/**
+	 * @see com.carr.mitchell.zyxba_gui.prompt.Prompt#decline()
+	 */
 	@Override
-	public void dispose(){
+	public void decline(){
 		
 		headers = null;
 		super.dispose();

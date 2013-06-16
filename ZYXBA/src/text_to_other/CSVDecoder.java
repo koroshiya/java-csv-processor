@@ -64,6 +64,10 @@ public class CSVDecoder {
 		
 	}
 	
+	/**
+	 * @param list ArrayList of CSV files to tokenize
+	 * @return ArrayList of String[] values representing different rows in the CSV input file
+	 * */
 	private static ArrayList<String[]> tokenizeArrayListArray(ArrayList<String> list){
 		
 		ArrayList<String[]> csvEntries = new ArrayList<String[]>();
@@ -98,6 +102,10 @@ public class CSVDecoder {
 		
 	}
 	
+	/**
+	 * @param csv CSV file to process
+	 * @return String[][] of CSV column and row values
+	 */
 	public static String[][] CSVToTwoDimensionalArray(File csv){
 		
 		ArrayList<String> arrayList = readCSVFileLineByLine(csv);
@@ -121,6 +129,11 @@ public class CSVDecoder {
 		
 	}
 	
+	/**
+	 * @param csv CSV file to process
+	 * @return ArrayList of values located in the CSV input file.
+	 * Values are <b>not</b> separated by different lines.
+	 */
 	public static ArrayList<String> CSVToArrayList(File csv){
 		
 		ArrayList<String> arrayList = readCSVFileLineByLine(csv);
@@ -129,6 +142,10 @@ public class CSVDecoder {
 		
 	}
 	
+	/**
+	 * @param csv CSV file to process
+	 * @return ArrayList of values located in the CSV input file
+	 */
 	public static ArrayList<String[]> CSVToArrayListArray(File csv){
 		
 		ArrayList<String> arrayList = readCSVFileLineByLine(csv);
