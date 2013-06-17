@@ -34,7 +34,9 @@ public class JSONFile extends CSVFileExport{
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}finally {
-		    if (out != null) out.close();
+		    if (out != null) {
+		    	out.close();
+		    }
 		}
 		
 	}

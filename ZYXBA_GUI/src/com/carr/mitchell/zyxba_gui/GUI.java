@@ -27,6 +27,7 @@ public class GUI {
 	private JButton btnExportToJSON;
 	private JButton btnExportToMSQL;
 	private JButton btnExportToPostgres;
+	private JButton btnExportToSQLServer;
 
 	private JMenuBar menuBar;
 	private JMenu menu;
@@ -35,6 +36,7 @@ public class GUI {
 	private JMenuItem menuItemExportJSON;
 	private JMenuItem menuItemExportMSQL;
 	private JMenuItem menuItemExportPostgres;
+	private JMenuItem menuItemExportSQLServer;
 
 	private JTable table;
 	private ActionListener actListener;
@@ -45,6 +47,7 @@ public class GUI {
 	public static final String exportJSON = "Export to JSon File";
 	public static final String exportMSQL = "Export to MySQL Database";
 	public static final String exportPostgres = "Export to Postgres Database";
+	public static final String exportSQLServer = "Export to SQLServer Database";
 
 	private File csv;
 
@@ -84,32 +87,34 @@ public class GUI {
 
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		btnOpen = new JButton(openCsv);
-		btnExportToXML = new JButton(exportXML);
-		btnExportToJSON = new JButton(exportJSON);
-		btnExportToMSQL = new JButton(exportMSQL);
-		btnExportToPostgres = new JButton(exportPostgres);
+		
+		JButton[] btnArray = {btnOpen, btnExportToXML, btnExportToJSON, 
+								btnExportToMSQL, btnExportToPostgres, btnExportToSQLServer};
+		String[] cmdArray = {openCsv, exportXML, exportJSON, exportMSQL, exportPostgres, exportSQLServer};
+		JMenuItem[] menuItemArray = {menuItemOpen, menuItemExportXML, menuItemExportJSON, 
+									menuItemExportMSQL, menuItemExportPostgres, menuItemExportSQLServer};
+		
+		for (int i = 0; i < btnArray.length; i++){
+			btnArray[i] = new JButton(cmdArray[i]);
+		}
 
 		OpenListener ol = new OpenListener(this);
 		ExportListener el = new ExportListener(this);
 
 		btnOpen.addActionListener(ol);
-		btnExportToXML.addActionListener(el);
-		btnExportToJSON.addActionListener(el);
-		btnExportToMSQL.addActionListener(el);
-		btnExportToPostgres.addActionListener(el);
+		
+		for (int i = 1; i < btnArray.length; i++){
+			btnArray[i].addActionListener(el);
+		}
 
 		frame.setMinimumSize(new Dimension(600, 300));
 
 		menuBar = new JMenuBar();
 		menu = new JMenu(strMenuFile);
 		actListener = new ButtonListener(this);
-		menu.add(createMenuItem(menuItemOpen, openCsv));
-		menu.add(createMenuItem(menuItemExportXML, exportXML));
-		menu.add(createMenuItem(menuItemExportJSON, exportJSON));
-		menu.add(createMenuItem(menuItemExportMSQL, exportMSQL));
-		menu.add(createMenuItem(menuItemExportPostgres, exportPostgres));
+		for (int i = 0; i < menuItemArray.length; i++){
+			menu.add(createMenuItem(menuItemArray[i], cmdArray[i]));
+		}
 		menuBar.add(menu);
 
 		frame.setJMenuBar(menuBar);

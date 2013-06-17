@@ -28,8 +28,6 @@ public class XMLFile extends CSVFileExport {
 		StringBuffer buffer = new StringBuffer();
 		ArrayList<String[]> data = CSVDecoder.CSVToArrayListArray(super.getCSV());
 
-		
-
 		for (int row = 0; row < columns.length && row < data.size(); row++) {
 
 			String[] dataRow = data.get(row);
@@ -44,8 +42,6 @@ public class XMLFile extends CSVFileExport {
 			}
 			buffer.append("\t" + "</" + objectName + ">" + "\n");
 		}
-
-		
 
 		return buffer;
 
@@ -67,8 +63,9 @@ public class XMLFile extends CSVFileExport {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} finally {
-			if (out != null)
+			if (out != null){
 				out.close();
+			}
 		}
 
 	}
