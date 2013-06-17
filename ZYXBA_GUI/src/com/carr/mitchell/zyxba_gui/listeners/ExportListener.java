@@ -178,7 +178,7 @@ public class ExportListener implements ActionListener {
 		
 		if (table.connect()){
 			String result = JOptionPane.showInputDialog(
-					parent.getFrame(),
+					parent,
 					"Please enter the name of the Table you wish to export to",
 					"Export to " + type, JOptionPane.PLAIN_MESSAGE);
 			if (result == null || result.equals("")) {

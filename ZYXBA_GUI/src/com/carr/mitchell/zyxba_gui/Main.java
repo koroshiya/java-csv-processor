@@ -1,5 +1,8 @@
 package com.carr.mitchell.zyxba_gui;
 
+/**
+ * Class created purely for instantiating a GUI interface
+ */
 public class Main {
 
 	private static GUI gui;

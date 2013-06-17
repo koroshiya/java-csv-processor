@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.carr.mitchell.zyxba_gui.listeners.PromptListener;
@@ -18,41 +19,36 @@ public class CredentialEntry extends Prompt {
 	
 	private JTextField database;
 	private JTextField userName;
-	private JTextField password;
+	private JPasswordField password;
 	private JTextField ip;
 	private JTextField port;
 	
-	private final JLabel lblDatabase;
-	private final JLabel lblUserName;
-	private final JLabel lblPassword;
-	private final JLabel lblIp;
-	private final JLabel lblPort;
-	
-	private final JButton btnAccept;
-	private final JButton btnCancel;
 	public static final String accept = "Accept";
 	public static final String cancel = "Cancel";
 	
 	private Credential credential;
 	
+	/**
+	 * Instantiates GUI through which a user will enter their credentials
+	 */
 	public CredentialEntry(){
 		
 		credential = null;
 		
 		database = new JTextField();
 		userName = new JTextField();
-		password = new JTextField();
+		password = new JPasswordField();
 		ip = new JTextField();
 		port = new JTextField();
 		
-		lblDatabase = new JLabel("Database name");
-		lblUserName = new JLabel("Database user's name");
-		lblPassword = new JLabel("Database user password");
-		lblIp = new JLabel("IP address (blank for localhost)");
-		lblPort = new JLabel("Port (blank for default port)");
+		JLabel lblDatabase = new JLabel("Database name");
+		JLabel lblUserName = new JLabel("Database user's name");
+		JLabel lblPassword = new JLabel("Database user password");
+		JLabel lblIp = new JLabel("IP address (blank for localhost)");
+		JLabel lblPort = new JLabel("Port (blank for default port)");
 		
-		btnAccept = new JButton(accept);
-		btnCancel = new JButton(cancel);
+		JButton btnAccept = new JButton(accept);
+		JButton btnCancel = new JButton(cancel);
 		
 		PromptListener cbl = new PromptListener(this);
 		btnAccept.addActionListener(cbl);
@@ -77,6 +73,9 @@ public class CredentialEntry extends Prompt {
 		
 	}
 		
+	/**
+	 * @return Credential held by this class
+	 */
 	public Credential getCredential(){
 		
 		return this.credential;
@@ -97,7 +96,7 @@ public class CredentialEntry extends Prompt {
 			return;
 		}
 		
-		String strPassword = password.getText();
+		String strPassword = password.getPassword().toString();
 		String strPort = port.getText();
 		String strIp = ip.getText();
 		

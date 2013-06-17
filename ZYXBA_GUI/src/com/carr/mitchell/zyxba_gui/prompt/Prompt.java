@@ -11,8 +11,14 @@ public abstract class Prompt extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Action to be invoked if user responds with a positive response
+	 */
 	public abstract void accept();
 	
+	/**
+	 * Action to be invoked if user responds with a negative response
+	 */
 	public abstract void decline();
 
 	/**

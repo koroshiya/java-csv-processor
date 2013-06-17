@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,32 +13,14 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.carr.mitchell.zyxba_gui.listeners.ButtonListener;
-import com.carr.mitchell.zyxba_gui.listeners.ExportListener;
-import com.carr.mitchell.zyxba_gui.listeners.OpenListener;
 
 import text_to_other.CSVDecoder;
 
-public class GUI {
-
-	private JFrame frame;
-	private JButton btnOpen;
-	private JButton btnExportToXML;
-	private JButton btnExportToJSON;
-	private JButton btnExportToMSQL;
-	private JButton btnExportToPostgres;
-	private JButton btnExportToSQLServer;
-
-	private JMenuBar menuBar;
-	private JMenu menu;
-	private JMenuItem menuItemOpen;
-	private JMenuItem menuItemExportXML;
-	private JMenuItem menuItemExportJSON;
-	private JMenuItem menuItemExportMSQL;
-	private JMenuItem menuItemExportPostgres;
-	private JMenuItem menuItemExportSQLServer;
+public class GUI extends JFrame{
+	
+	private static final long serialVersionUID = 1L;
 
 	private JTable table;
-	private ActionListener actListener;
 
 	public static final String strMenuFile = "File";
 	public static final String openCsv = "Open CSV File";
@@ -50,19 +31,29 @@ public class GUI {
 	public static final String exportSQLServer = "Export to SQLServer Database";
 
 	private File csv;
-
+	
 	public GUI() {
+		super("Java CSV Decoder");
 		instantiateGUI();
 	}
 
+	/**
+	 * @return Returns the CSV file held by this class
+	 */
 	public File getCSV() {
 		return this.csv;
 	}
 
+	/**
+	 * @param csv CSV file from which data will be extracted
+	 */
 	public void setCSV(File csv) {
 		this.csv = csv;
 	}
 
+	/**
+	 * Reads the held CSV file into this control's data table
+	 */
 	public void readCSV() {
 
 		if (this.csv != null) {
@@ -83,47 +74,36 @@ public class GUI {
 
 	}
 
+	/**
+	 * Instantiates GUI
+	 */
 	private void instantiateGUI() {
 
-		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JButton[] btnArray = {btnOpen, btnExportToXML, btnExportToJSON, 
-								btnExportToMSQL, btnExportToPostgres, btnExportToSQLServer};
 		String[] cmdArray = {openCsv, exportXML, exportJSON, exportMSQL, exportPostgres, exportSQLServer};
-		JMenuItem[] menuItemArray = {menuItemOpen, menuItemExportXML, menuItemExportJSON, 
-									menuItemExportMSQL, menuItemExportPostgres, menuItemExportSQLServer};
-		
-		for (int i = 0; i < btnArray.length; i++){
-			btnArray[i] = new JButton(cmdArray[i]);
-		}
+		JMenuItem[] menuItemArray = new JMenuItem[6];
 
-		OpenListener ol = new OpenListener(this);
-		ExportListener el = new ExportListener(this);
+		this.setMinimumSize(new Dimension(600, 300));
 
-		btnOpen.addActionListener(ol);
-		
-		for (int i = 1; i < btnArray.length; i++){
-			btnArray[i].addActionListener(el);
-		}
-
-		frame.setMinimumSize(new Dimension(600, 300));
-
-		menuBar = new JMenuBar();
-		menu = new JMenu(strMenuFile);
-		actListener = new ButtonListener(this);
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu(strMenuFile);
+		ActionListener actListener = new ButtonListener(this);
 		for (int i = 0; i < menuItemArray.length; i++){
-			menu.add(createMenuItem(menuItemArray[i], cmdArray[i]));
+			menu.add(createMenuItem(menuItemArray[i], cmdArray[i], actListener));
 		}
 		menuBar.add(menu);
 
-		frame.setJMenuBar(menuBar);
+		this.setJMenuBar(menuBar);
 
 		table = new JTable(testData(), testHeaders());
-		frame.add(new JScrollPane(table));
+		this.add(new JScrollPane(table));
 
 	}
 
+	/**
+	 * @return Object[][] of test data to populate the JTable with
+	 */
 	private Object[][] testData() {
 
 		Object[][] data = { { "Kathy", "Smith", "Snowboarding", 5, false },
@@ -136,6 +116,9 @@ public class GUI {
 
 	}
 
+	/**
+	 * @return String[] of test column headers
+	 */
 	private String[] testHeaders() {
 
 		String[] columnNames = { "First Name", "Last Name", "Sport",
@@ -145,7 +128,13 @@ public class GUI {
 
 	}
 
-	private JMenuItem createMenuItem(JMenuItem item, String command) {
+	/**
+	 * @param item JMenuItem to set
+	 * @param command String to set as the JMenuItem's text
+	 * @param actListener ActionListener for JMenuItem click events
+	 * @return Resulting JMenuItem
+	 */
+	private JMenuItem createMenuItem(JMenuItem item, String command, ActionListener actListener) {
 
 		item = new JMenuItem();
 		item.setText(command);
@@ -155,24 +144,19 @@ public class GUI {
 
 	}
 
+	/**
+	 * Makes component visible
+	 */
 	public void display() {
-		frame.setVisible(true);
+		this.setVisible(true);
 	}
 
-	public JFrame getFrame() {
-		return this.frame;
-	}
-
+	/**
+	 * @return Data from CSV file as Object[][]
+	 * If no CSV file has been set, returns null.
+	 */
 	public Object[][] getData() {
-		if (this.csv != null) {
-			return CSVDecoder.CSVToTwoDimensionalArray(this.csv);
-		} else {
-			return null;
-		}
-	}
-
-	public void storeCredentials(){
-		
+		return this.csv != null ? CSVDecoder.CSVToTwoDimensionalArray(this.csv) : null;
 	}
 	
 }
