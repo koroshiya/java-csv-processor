@@ -15,7 +15,7 @@ public class ButtonListener implements ActionListener {
 	private final GUI parent;
 
 	/**
-	 * @param parent GUI to accept this class's output.
+	 * @param gui GUI to accept this class's output.
 	 */
 	public ButtonListener(GUI gui) {
 		
