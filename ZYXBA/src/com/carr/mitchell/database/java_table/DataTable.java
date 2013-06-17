@@ -1,11 +1,11 @@
-package database.java_table;
+package com.carr.mitchell.database.java_table;
 
 import java.util.ArrayList;
 
 /**
  * Represents the contents of a JTable or a similar construct.
  * Hold DataColumn objects, a name for the table, etc.
- * This class aims to ease the process of exporting an Object[][] to a database or other field-based file.
+ * This class aims to ease the process of exporting an Object[][] to a com.carr.mitchell.database or other field-based file.
  * */
 public class DataTable {
 	

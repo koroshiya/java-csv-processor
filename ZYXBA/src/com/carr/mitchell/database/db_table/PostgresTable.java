@@ -1,10 +1,11 @@
-package database.db_table;
+package com.carr.mitchell.database.db_table;
 
 import java.sql.SQLException;
 
-import database.java_table.DataCell;
-import database.java_table.DataColumn;
-import database.java_table.DataTable;
+import com.carr.mitchell.database.java_table.DataCell;
+import com.carr.mitchell.database.java_table.DataColumn;
+import com.carr.mitchell.database.java_table.DataTable;
+
 
 public class PostgresTable extends DBTable {
 
@@ -14,47 +15,47 @@ public class PostgresTable extends DBTable {
 	private final static String connectionHead = "jdbc:postgresql://";
 
 	/**
-	 * @param dbName Name of the database these credentials are for
-	 * @param userName Name of the user attempting to access a database
-	 * @param password Password of the user attempting to access a database
+	 * @param dbName Name of the com.carr.mitchell.database these credentials are for
+	 * @param userName Name of the user attempting to access a com.carr.mitchell.database
+	 * @param password Password of the user attempting to access a com.carr.mitchell.database
 	 */
 	public PostgresTable(String dbName, String userName, String password) {
 		super(dbName, connectionHead, defaultIP, defaultPort, defaultDriver, userName, password);
 	}
 
 	/**
-	 * @param dbName Name of the database these credentials are for
-	 * @param userName Name of the user attempting to access a database
-	 * @param password Password of the user attempting to access a database
-	 * @param port Port through which the database will be accessed
+	 * @param dbName Name of the com.carr.mitchell.database these credentials are for
+	 * @param userName Name of the user attempting to access a com.carr.mitchell.database
+	 * @param password Password of the user attempting to access a com.carr.mitchell.database
+	 * @param port Port through which the com.carr.mitchell.database will be accessed
 	 */
 	public PostgresTable(String dbName, String userName, String password, int port) {
 		super(dbName, connectionHead, defaultIP, port, defaultDriver, userName, password);
 	}
 
 	/**
-	 * @param dbName Name of the database these credentials are for
-	 * @param userName Name of the user attempting to access a database
-	 * @param password Password of the user attempting to access a database
-	 * @param ip IP address of the machine on which the database is held
+	 * @param dbName Name of the com.carr.mitchell.database these credentials are for
+	 * @param userName Name of the user attempting to access a com.carr.mitchell.database
+	 * @param password Password of the user attempting to access a com.carr.mitchell.database
+	 * @param ip IP address of the machine on which the com.carr.mitchell.database is held
 	 */
 	public PostgresTable(String dbName, String userName, String password, String ip) {
 		super(dbName, connectionHead, ip, defaultPort, defaultDriver, userName, password);
 	}
 
 	/**
-	 * @param dbName Name of the database these credentials are for
-	 * @param userName Name of the user attempting to access a database
-	 * @param password Password of the user attempting to access a database
-	 * @param port Port through which the database will be accessed
-	 * @param ip IP address of the machine on which the database is held
+	 * @param dbName Name of the com.carr.mitchell.database these credentials are for
+	 * @param userName Name of the user attempting to access a com.carr.mitchell.database
+	 * @param password Password of the user attempting to access a com.carr.mitchell.database
+	 * @param port Port through which the com.carr.mitchell.database will be accessed
+	 * @param ip IP address of the machine on which the com.carr.mitchell.database is held
 	 */
 	public PostgresTable(String dbName, String userName, String password, int port, String ip) {
 		super(dbName, connectionHead, ip, port, defaultDriver, userName, password);
 	}
 
 	/**
-	 * @see database.db_table.DBTable#createTable(java.lang.String, java.lang.Object[][])
+	 * @see com.carr.mitchell.database.db_table.DBTable#createTable(java.lang.String, java.lang.Object[][])
 	 */
 	@Override
 	public boolean createTable(String tableName, Object[][] data) throws SQLException {
@@ -62,7 +63,7 @@ public class PostgresTable extends DBTable {
 	}
 
 	/**
-	 * @param table DataTable which the structure of the database will reflect
+	 * @param table DataTable which the structure of the com.carr.mitchell.database will reflect
 	 * @return True if table was created, otherwise false.
 	 * @throws SQLException if SQL couldn't be executed
 	 */
@@ -93,7 +94,7 @@ public class PostgresTable extends DBTable {
 
 	
 	/**
-	 * @see database.db_table.DBTable#getDataTypeAsString(int)
+	 * @see com.carr.mitchell.database.db_table.DBTable#getDataTypeAsString(int)
 	 */
 	@Override
 	public String getDataTypeAsString(int type) {

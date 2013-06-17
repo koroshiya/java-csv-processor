@@ -1,4 +1,4 @@
-package database.java_table;
+package com.carr.mitchell.database.java_table;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class DataColumn {
 	 * @param dataType Integer representing the type of data held by this column.
 	 * 		Data type maps to a field in DataCell.
 	 * 		If you don't know what to put, use DataCell.determineType(Object)
-	 * @see database.java_table.DataCell#determineType(Object)
+	 * @see com.carr.mitchell.database.java_table.DataCell#determineType(Object)
 	 * @param columnName Name of the DataColumn to create
 	 * @param nullable Boolean indicating whether the field can be null or not
 	 */
@@ -48,11 +48,11 @@ public class DataColumn {
 	 * @param dataType Integer representing the type of data held by this column.
 	 * 		Data type maps to a field in DataCell.
 	 * 		If you don't know what to put, use DataCell.determineType(Object)
-	 * @see database.java_table.DataCell#determineType(Object)
+	 * @see com.carr.mitchell.database.java_table.DataCell#determineType(Object)
 	 * @param columnName Name of the DataColumn to create
 	 * @param nullable Boolean indicating whether the field can be null or not
 	 * @param col Object[] to convert into a DataColumn
-	 * @param primaryKey Boolean representing whether this Column represents the primary key in a database table
+	 * @param primaryKey Boolean representing whether this Column represents the primary key in a com.carr.mitchell.database table
 	 */
 	public DataColumn(int dataType, String columnName, boolean nullable, Object[] col, boolean primaryKey){
 		cells = new ArrayList<DataCell>();
@@ -67,7 +67,7 @@ public class DataColumn {
 	
 	/**
 	 * @return Integer representing the data type of this column
-	 * @see database.java_table.DataCell#determineType(Object)
+	 * @see com.carr.mitchell.database.java_table.DataCell#determineType(Object)
 	 */
 	public int getDataType(){
 		return this.dataType;
@@ -88,7 +88,7 @@ public class DataColumn {
 	}
 	
 	/**
-	 * @return If this field represents the primary key in a database table, true. Otherwise, false.
+	 * @return If this field represents the primary key in a com.carr.mitchell.database table, true. Otherwise, false.
 	 */
 	public boolean isPrimaryKey(){
 		return this.primaryKey;

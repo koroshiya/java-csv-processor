@@ -1,4 +1,4 @@
-package text_to_other;
+package com.carr.mitchell.text_to_other;
 
 import java.io.File;
 
@@ -12,7 +12,7 @@ public abstract class CSVExport {
 	private final File csv;
 	
 	/**
-	 * @param CSV file to process and later export
+	 * @param csv file to process and later export
 	 */
 	public CSVExport(File csv){
 		this.csv = csv;

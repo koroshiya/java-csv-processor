@@ -8,10 +8,10 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.carr.mitchell.database.Credential;
 import com.carr.mitchell.zyxba_gui.listeners.PromptListener;
 
 
-import database.Credential;
 
 public class CredentialEntry extends Prompt {
 	

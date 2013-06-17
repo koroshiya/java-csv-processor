@@ -1,4 +1,4 @@
-package database.db_table;
+package com.carr.mitchell.database.db_table;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.sql.DatabaseMetaData;
 
 /**
- * Represents a generic database table.
- * Should be extended to match the rules of individual database types.
+ * Represents a generic com.carr.mitchell.database table.
+ * Should be extended to match the rules of individual com.carr.mitchell.database types.
  * */
 public abstract class DBTable {
 
@@ -23,11 +23,11 @@ public abstract class DBTable {
 	private Connection dbConnection;
 
 	/**
-	 * @param dbName Name of the database this table belongs to
-	 * @param connectionString ConnectionString used to connect to the database
-	 * @param driver Driver used to connect to the specific database type
-	 * @param userName Name of the user connecting to the database
-	 * @param password Password of the user connecting to the database
+	 * @param dbName Name of the com.carr.mitchell.database this table belongs to
+	 * @param connectionString ConnectionString used to connect to the com.carr.mitchell.database
+	 * @param driver Driver used to connect to the specific com.carr.mitchell.database type
+	 * @param userName Name of the user connecting to the com.carr.mitchell.database
+	 * @param password Password of the user connecting to the com.carr.mitchell.database
 	 */
 	public DBTable(String dbName, String connectionString, String driver,
 			String userName, String password) {
@@ -42,13 +42,13 @@ public abstract class DBTable {
 	}
 
 	/**
-	 * @param dbName Name of the database this table belongs to
-	 * @param connectionHead Beginning of the database ConnectionString
-	 * @param ip IP address of the machine on which the database resides
-	 * @param port Port through which the database will be accessed
-	 * @param driver Driver used to connect to the specific database type
-	 * @param userName Name of the user connecting to the database
-	 * @param password Password of the user connecting to the database
+	 * @param dbName Name of the com.carr.mitchell.database this table belongs to
+	 * @param connectionHead Beginning of the com.carr.mitchell.database ConnectionString
+	 * @param ip IP address of the machine on which the com.carr.mitchell.database resides
+	 * @param port Port through which the com.carr.mitchell.database will be accessed
+	 * @param driver Driver used to connect to the specific com.carr.mitchell.database type
+	 * @param userName Name of the user connecting to the com.carr.mitchell.database
+	 * @param password Password of the user connecting to the com.carr.mitchell.database
 	 */
 	public DBTable(String dbName, String connectionHead, String ip, int port,
 			String driver, String userName, String password) {
@@ -56,7 +56,7 @@ public abstract class DBTable {
 	}
 
 	/**
-	 * Attempts to connect to the database
+	 * Attempts to connect to the com.carr.mitchell.database
 	 * @return True if connection succeeded, otherwise false.
 	 */
 	public boolean connect() {
@@ -72,7 +72,7 @@ public abstract class DBTable {
 			System.out.println("Appropriate driver not found");
 			e.printStackTrace();
 		} catch (SQLException e) {
-			System.out.println("Unable to connect to database");
+			System.out.println("Unable to connect to com.carr.mitchell.database");
 			e.printStackTrace();
 		}
 		
@@ -83,7 +83,7 @@ public abstract class DBTable {
 	/**
 	 * @param sqlStatement SQL Statement to execute
 	 * @return ResultSet containing the results of the executed SQL statement.
-	 * 			Null if no database connection exists.
+	 * 			Null if no com.carr.mitchell.database connection exists.
 	 * @throws SQLException if query couldn't be executed
 	 */
 	public ResultSet execute(String sqlStatement) throws SQLException{
@@ -94,7 +94,7 @@ public abstract class DBTable {
 			return statement.executeQuery(sqlStatement);
 
 		} else {
-			System.out.println("No active database connection");
+			System.out.println("No active com.carr.mitchell.database connection");
 		}
 
 		return null;
@@ -113,7 +113,7 @@ public abstract class DBTable {
 			statement.executeUpdate(sqlStatement);
 
 		} else {
-			System.out.println("No active database connection");
+			System.out.println("No active com.carr.mitchell.database connection");
 		}
 		
 	}
@@ -140,7 +140,7 @@ public abstract class DBTable {
 			write(tableName, data);
 		
 		}else{
-			System.out.println("No active database connection");
+			System.out.println("No active com.carr.mitchell.database connection");
 		}
 
 	}
@@ -212,7 +212,7 @@ public abstract class DBTable {
 	}
 	
 	/**
-	 * If the database is connected, this closes the connection.
+	 * If the com.carr.mitchell.database is connected, this closes the connection.
 	 */
 	public void close() {
 
@@ -228,42 +228,42 @@ public abstract class DBTable {
 	}
 
 	/**
-	 * @return Name of the database
+	 * @return Name of the com.carr.mitchell.database
 	 */
 	public String getDatabaseName() {
 		return this.DATABASE_NAME;
 	}
 
 	/**
-	 * @return ConnectionString used to connect to the database
+	 * @return ConnectionString used to connect to the com.carr.mitchell.database
 	 */
 	public String getDatabaseConnectionString() {
 		return this.DATABASE_CONNECTION;
 	}
 
 	/**
-	 * @return Driver used to connect to the specific database type
+	 * @return Driver used to connect to the specific com.carr.mitchell.database type
 	 */
 	public String getDriverName() {
 		return this.DRIVER_NAME;
 	}
 
 	/**
-	 * @return	Name of the user connecting to the database
+	 * @return	Name of the user connecting to the com.carr.mitchell.database
 	 */
 	public String getUserName() {
 		return this.USER_NAME;
 	}
 
 	/**
-	 * @return Password of the user connecting to the database
+	 * @return Password of the user connecting to the com.carr.mitchell.database
 	 */
 	public String getPassword() {
 		return this.PASSWORD;
 	}
 	
 	/**
-	 * @return If a database connection has been established, returns true.
+	 * @return If a com.carr.mitchell.database connection has been established, returns true.
 	 * Otherwise, false.
 	 */
 	public boolean isConnected(){

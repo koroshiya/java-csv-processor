@@ -1,11 +1,11 @@
-package database.java_table;
+package com.carr.mitchell.database.java_table;
 
 import java.sql.Date;
 import java.util.Calendar;
 
 /**
  * Represents a single cell in a table.
- * May be thought of as a cell in a JTable row, the value of a single field in a database table, etc.
+ * May be thought of as a cell in a JTable row, the value of a single field in a com.carr.mitchell.database table, etc.
  * */
 public class DataCell {
 	

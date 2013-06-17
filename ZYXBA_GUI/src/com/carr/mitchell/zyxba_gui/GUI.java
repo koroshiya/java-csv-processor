@@ -12,9 +12,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.carr.mitchell.text_to_other.CSVDecoder;
 import com.carr.mitchell.zyxba_gui.listeners.ButtonListener;
 
-import text_to_other.CSVDecoder;
 
 public class GUI extends JFrame{
 	

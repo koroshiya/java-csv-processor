@@ -1,4 +1,4 @@
-package write_format;
+package com.carr.mitchell.write_format;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,8 +6,9 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import text_to_other.CSVDecoder;
-import text_to_other.CSVFileExport;
+import com.carr.mitchell.text_to_other.CSVDecoder;
+import com.carr.mitchell.text_to_other.CSVFileExport;
+
 
 public class XMLFile extends CSVFileExport {
 
@@ -20,7 +21,7 @@ public class XMLFile extends CSVFileExport {
 	}
 
 	/**
-	 * @see text_to_other.CSVFileExport#exportToColumns(java.lang.String, java.lang.String[])
+	 * @see com.carr.mitchell.text_to_other.CSVFileExport#exportToColumns(java.lang.String, java.lang.String[])
 	 */
 	@Override
 	public StringBuffer exportToColumns(String objectName, String[] columns) {
@@ -48,7 +49,7 @@ public class XMLFile extends CSVFileExport {
 	}
 
 	/**
-	 * @see text_to_other.CSVFileExport#writeToFile(java.lang.String)
+	 * @see com.carr.mitchell.text_to_other.CSVFileExport#writeToFile(java.lang.String)
 	 */
 	@Override
 	public void writeToFile(String text) {

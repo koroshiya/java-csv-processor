@@ -1,10 +1,5 @@
 package com.carr.mitchell.zyxba_gui.listeners;
 
-import database.Credential;
-import database.db_table.DBTable;
-import database.db_table.MySQLTable;
-import database.db_table.PostgresTable;
-import database.db_table.SQLServerTable;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,13 +10,18 @@ import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import com.carr.mitchell.database.Credential;
+import com.carr.mitchell.database.db_table.DBTable;
+import com.carr.mitchell.database.db_table.MySQLTable;
+import com.carr.mitchell.database.db_table.PostgresTable;
+import com.carr.mitchell.database.db_table.SQLServerTable;
+import com.carr.mitchell.text_to_other.CSVFileExport;
+import com.carr.mitchell.write_format.JSONFile;
+import com.carr.mitchell.write_format.XMLFile;
 import com.carr.mitchell.zyxba_gui.GUI;
 import com.carr.mitchell.zyxba_gui.prompt.CredentialEntry;
 import com.carr.mitchell.zyxba_gui.prompt.HeaderPrompt;
 
-import text_to_other.CSVFileExport;
-import write_format.JSONFile;
-import write_format.XMLFile;
 
 public class ExportListener implements ActionListener {
 
@@ -97,7 +97,7 @@ public class ExportListener implements ActionListener {
 	}
 	
 	/**
-	 * @param command Command illustrating what kind of database to export the data to
+	 * @param command Command illustrating what kind of com.carr.mitchell.database to export the data to
 	 */
 	private void exportDatabase(String command){
 		
@@ -193,7 +193,7 @@ public class ExportListener implements ActionListener {
 			}
 			table.close();
 		}else {
-			JOptionPane.showMessageDialog(null, "Unable to connect to database", "Connection failed", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Unable to connect to com.carr.mitchell.database", "Connection failed", JOptionPane.WARNING_MESSAGE);
 		}
 		
 	}

@@ -1,4 +1,4 @@
-package text_to_other;
+package com.carr.mitchell.text_to_other;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,14 +37,14 @@ public abstract class CSVFileExport extends CSVExport {
 
 	/**
 	 * @param objectName Identifier for output file contents.
-	 * For a database, this would be the table name. For an XML file, it would be a tag. etc.
+	 * For a com.carr.mitchell.database, this would be the table name. For an XML file, it would be a tag. etc.
 	 * @param columns Inner identifiers. eg. Database field names, inner XML tags, etc.
 	 * @return Returns a StringBuffer containing the command necessary for an export to be applied.
 	 */
 	public abstract StringBuffer exportToColumns(String objectName, String[] columns);
 	
 	/**
-	 * @see text_to_other.CSVExport#writeToColumnDefinedFile(java.lang.String, java.lang.String[])
+	 * @see com.carr.mitchell.text_to_other.CSVExport#writeToColumnDefinedFile(java.lang.String, java.lang.String[])
 	 */
 	public void writeToColumnDefinedFile(String objectName, String[] columns) {
 		
@@ -113,7 +113,7 @@ public abstract class CSVFileExport extends CSVExport {
 	 * @param rowPostOuter Text proceeding row entry
 	 * 			eg. in JSON, it would be '],'
 	 * @param end Text to end column. Usually a break, such as "\n"
-	 * @return
+	 * @return Returns a StringBuffer containing the command necessary for an export to be applied.
 	 */
 	public StringBuffer writeToCustomColumn(String objectName, String[] columns, 
 			String rowPreOuter1, String rowPreOuter2, 
